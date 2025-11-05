@@ -1,0 +1,6 @@
+.env
+.venv
+&&
+source
+pima_latest_15_09.sql
+.idea
