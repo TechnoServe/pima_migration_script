@@ -1,6 +1,7 @@
 from typing import Iterable, Dict, Any, Optional
 from sqlalchemy import text
 
+# Function to yield chunks of a specified size from an iterable
 def chunked(iterable: Iterable, size: int):
     batch = []
     for item in iterable:

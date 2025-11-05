@@ -75,7 +75,7 @@ def _derive_username_email(first_name: Optional[str], last_name: Optional[str],
         uname = None
     # email: keep provided; else derive from username
     if email:
-        return uname, email
+        return uname, email + uuid4().hex[:4]
     if uname:
         return uname, f"{uname}@pima.org"
     return None, "unknown@pima.org"  # last-resort fallback

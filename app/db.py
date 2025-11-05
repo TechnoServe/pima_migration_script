@@ -11,7 +11,6 @@ _sql_cache: dict[str, str] = {}  # cache SQL files by path
 def get_engine() -> Engine:
     global _engine
     if _engine is None:
-        # Keep semantics; just add a reasonable pool.
         _engine = create_engine(
             settings.pg_url,
             pool_pre_ping=True,
@@ -24,7 +23,6 @@ def get_engine() -> Engine:
 @contextmanager
 def connect():
     eng = get_engine()
-    # one transaction per context (as you had)
     with eng.begin() as conn:
         yield conn
 

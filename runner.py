@@ -1,5 +1,4 @@
 import typer
-from sqlalchemy.sql.coercions import expect
 
 from app.audit import ensure_ops_tables, start_run, finish_run, start_task, finish_task
 from app.config import settings
@@ -9,8 +8,6 @@ from app.objects import (
     project_staff_roles, training_modules, farmer_groups,
     training_sessions
 )
-
-# Placeholders (import so names exist; they return zeros)
 
 app = typer.Typer(help="Pima Migration CLI (Salesforce -> Postgres)")
 
@@ -125,7 +122,7 @@ def cmd_training_sessions():
 
 @app.command("run-all")
 def run_all():
-    """Run in dependency order; extend as you implement the placeholders."""
+    """Run in dependency order;"""
     ensure_ops_tables()
     run_id = start_run(settings.MIGRATION_OPERATOR_EMAIL)
 
