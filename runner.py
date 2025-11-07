@@ -6,7 +6,7 @@ from app.config import settings
 from app.objects import (
     users, programs, locations, projects,
     project_staff_roles, training_modules, farmer_groups,
-    training_sessions
+    training_sessions, households, farmers
 )
 
 app = typer.Typer(help="Pima Migration CLI (Salesforce -> Postgres)")
@@ -120,6 +120,28 @@ def cmd_training_sessions():
         finish_run(run_id, status="FAILED", notes=f"Training sessions error: {e}")
         raise
 
+@app.command("households")
+def cmd_households():
+    ensure_ops_tables()
+    run_id = start_run(settings.MIGRATION_OPERATOR_EMAIL)
+    try:
+        res = _run_step(run_id, "households", households)
+        finish_run(run_id, status="SUCCESS", notes=f"Households: {res}")
+    except Exception as e:
+        finish_run(run_id, status="FAILED", notes=f"Households error: {e}")
+        raise
+
+@app.command("farmers")
+def cmd_farmers():
+    ensure_ops_tables()
+    run_id = start_run(settings.MIGRATION_OPERATOR_EMAIL)
+    try:
+        res = _run_step(run_id, "farmers", farmers)
+        finish_run(run_id, status="SUCCESS", notes=f"Farmers: {res}")
+    except Exception as e:
+        finish_run(run_id, status="FAILED", notes=f"Farmers error: {e}")
+        raise
+
 @app.command("run-all")
 def run_all():
     """Run in dependency order;"""
@@ -138,9 +160,8 @@ def run_all():
         go("training_modules", training_modules)
         go("farmer_groups", farmer_groups)
         go("training_sessions", training_sessions)
-
-        # go("households", households)
-        # go("farmers", farmers)
+        go("households", households)
+        go("farmers", farmers)
 
         # Add more as they are implemented fully:
         # go("attendances", attendances)
