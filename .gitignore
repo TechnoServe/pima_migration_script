@@ -4,3 +4,7 @@
 source
 pima_latest_15_09.sql
 .idea
+__pycache__
+*.pyc
+*.pyo
+*.pyd

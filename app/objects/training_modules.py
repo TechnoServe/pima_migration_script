@@ -57,7 +57,7 @@ def transform(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             "module_name":          module_name,
             "module_number":        r.get(SF_MODULE_NUMBER),
             "current_module":       bool(r.get(SF_CURRENT_MODULE)),
-            "current_previous":     r.get(SF_CURRENT_PREVIOUS) or "Current",
+            "current_previous":     r.get(SF_CURRENT_PREVIOUS),
             "status":               (r.get(SF_STATUS) or "Active"),
             "sample_fv_aa_households": bool(r.get(SF_SAMPLE_AA_FV)),
             "sample_fv_aa_households_status": None,

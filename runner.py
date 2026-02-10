@@ -6,7 +6,8 @@ from app.config import settings
 from app.objects import (
     users, programs, locations, projects,
     project_staff_roles, training_modules, farmer_groups,
-    training_sessions, households, farmers
+    training_sessions, households, farmers, attendances,
+    observations, observation_results
 )
 
 app = typer.Typer(help="Pima Migration CLI (Salesforce -> Postgres)")
@@ -142,6 +143,39 @@ def cmd_farmers():
         finish_run(run_id, status="FAILED", notes=f"Farmers error: {e}")
         raise
 
+@app.command("attendances")
+def cmd_attendances():
+    ensure_ops_tables()
+    run_id = start_run(settings.MIGRATION_OPERATOR_EMAIL)
+    try:
+        res = _run_step(run_id, "attendances", attendances)
+        finish_run(run_id, status="SUCCESS", notes=f"Attendances: {res}")
+    except Exception as e:
+        finish_run(run_id, status="FAILED", notes=f"Attendances error: {e}")
+        raise
+
+@app.command("observations")
+def cmd_observations():
+    ensure_ops_tables()
+    run_id = start_run(settings.MIGRATION_OPERATOR_EMAIL)
+    try:
+        res = _run_step(run_id, "observations", observations)
+        finish_run(run_id, status="SUCCESS", notes=f"Observations: {res}")
+    except Exception as e:
+        finish_run(run_id, status="FAILED", notes=f"Observations error: {e}")
+        raise
+
+@app.command("observation_results")
+def cmd_observation_results():
+    ensure_ops_tables()
+    run_id = start_run(settings.MIGRATION_OPERATOR_EMAIL)
+    try:
+        res = _run_step(run_id, "observation_results", observation_results)
+        finish_run(run_id, status="SUCCESS", notes=f"Observation results: {res}")
+    except Exception as e:
+        finish_run(run_id, status="FAILED", notes=f"Observation results error: {e}")
+        raise
+
 @app.command("run-all")
 def run_all():
     """Run in dependency order;"""
@@ -162,18 +196,17 @@ def run_all():
         go("training_sessions", training_sessions)
         go("households", households)
         go("farmers", farmers)
+        go("attendances", attendances)
+        go("observations", observations)
+        go("observation_results", observation_results)
 
-        # Add more as they are implemented fully:
-        # go("attendances", attendances)
-        # go("observations", observations)
-        # go("observation_results", observation_results)
-        # go("farm_visits", farm_visits)
-        # go("farms", farms)
-        # go("fv_best_practices", fv_best_practices)
-        # go("fv_best_practice_answers", fv_best_practice_answers)
-        # go("coffee_varieties", coffee_varieties)
-        # go("checks", checks)
-        # go("images", images)
+        go("farm_visits", farm_visits)
+        go("farms", farms)
+        go("fv_best_practices", fv_best_practices)
+        go("fv_best_practice_answers", fv_best_practice_answers)
+        go("coffee_varieties", coffee_varieties)
+        go("checks", checks)
+        go("images", images)
 
 
         finish_run(run_id, status="SUCCESS", notes="run-all finished")

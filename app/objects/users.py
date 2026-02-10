@@ -1,13 +1,15 @@
-# users.py
+# app/etl/users.py
 import time
 from uuid import uuid4
 from typing import List, Dict, Any, Optional
+from sqlalchemy import text
+
 from ..sf import sf_client, query_all
 from ..db import connect, run_sql_many
 from ..config import settings
 from ..utils import chunked
 
-SF_PROJECT_OBJECT   = "Contact" # Contact object in Salesforce will be migrated to users table
+SF_PROJECT_OBJECT   = "Contact"  # Contact object in Salesforce will be migrated to users table
 SF_FIRST_NAME       = "FirstName"
 SF_LAST_NAME        = "LastName"
 SF_EMAIL            = "Email"
@@ -46,7 +48,7 @@ def transform(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             "first_name": r.get(SF_FIRST_NAME),
             "last_name":  r.get(SF_LAST_NAME),
             "email":      r.get(SF_EMAIL),
-            "username":   None,              # will derive below if missing
+            "username":   None,              # will set from email/local-part during load
             "password":   None,              # leave NULL
             "tns_id":     r.get(SF_TNS_ID),
             "phone_number": r.get(SF_PHONE),
@@ -66,19 +68,63 @@ def _fmt_eta(s: float) -> str:
     h, m = divmod(m, 60)
     return f"{h}h {m}m {sec}s" if h else (f"{m}m {sec}s" if m else f"{sec}s")
 
-def _derive_username_email(first_name: Optional[str], last_name: Optional[str],
-                           email: Optional[str]) -> tuple[Optional[str], str]:
-    # username: first initial + last name + 2-hex suffix; lowercased
-    if first_name and last_name:
-        uname = (first_name[:1] + last_name).lower() + uuid4().hex[:2]
-    else:
-        uname = None
-    # email: keep provided; else derive from username
-    if email:
-        return uname, email + uuid4().hex[:4]
-    if uname:
-        return uname, f"{uname}@pima.org"
-    return None, "unknown@pima.org"  # last-resort fallback
+def _load_existing_sets(conn) -> tuple[set, set]:
+    usernames = {
+        (r["username"] or "").lower()
+        for r in conn.execute(text("SELECT username FROM pima.users WHERE username IS NOT NULL")).mappings()
+    }
+    emails = {
+        (r["email"] or "").lower()
+        for r in conn.execute(text("SELECT email FROM pima.users WHERE email IS NOT NULL")).mappings()
+    }
+    return usernames, emails
+
+def _unique_username_email(
+    base_email: Optional[str],
+    existing_usernames: set,
+    existing_emails: set,
+    session_usernames: set,
+    session_emails: set,
+) -> tuple[str, str]:
+    # If we have an email from SF, use it; username = local-part
+    if base_email:
+        be = base_email.strip().lower()
+        # guard against malformed emails
+        if "@" in be and be.split("@", 1)[0]:
+            local, domain = be.split("@", 1)
+            username = local
+            email = f"{local}@{domain}"
+        else:
+            be = None  # treat as missing
+
+    if not base_email or not be:
+        # fabricate both if email missing/bad
+        suf = uuid4().hex[:6]
+        username = f"user-{suf}"
+        email = f"user-{suf}@pima.org"
+
+    # ensure uniqueness (DB + this run)
+    def bump_username(u: str) -> str:
+        cand = u
+        while (cand in existing_usernames) or (cand in session_usernames) or (cand == ""):
+            cand = f"{u}-{uuid4().hex[:4]}"
+        session_usernames.add(cand)
+        return cand
+
+    def bump_email(e: str) -> str:
+        cand = e
+        while (cand.lower() in existing_emails) or (cand.lower() in session_emails) or (cand == "") or ("@" not in cand):
+            if "@" in e:
+                l, d = e.split("@", 1)
+                cand = f"{l}.{uuid4().hex[:4]}@{d}"
+            else:
+                cand = f"user-{uuid4().hex[:6]}@pima.org"
+        session_emails.add(cand.lower())
+        return cand
+
+    username = bump_username(username.lower())
+    email = bump_email(email.lower())
+    return username, email
 
 def load(transformed: List[Dict[str, Any]]) -> tuple[int, int]:
     done = 0
@@ -92,15 +138,18 @@ def load(transformed: List[Dict[str, Any]]) -> tuple[int, int]:
         return 0, 0
 
     with connect() as c:
+        existing_usernames, existing_emails = _load_existing_sets(c)
+        session_usernames: set = set()
+        session_emails: set = set()
+
         for idx, batch in enumerate(chunked(transformed, 1000), start=1):
             params_list = []
             for row in batch:
-                username, email = _derive_username_email(
-                    row["first_name"], row["last_name"], row["email"]
+                username, email = _unique_username_email(
+                    row.get("email"),
+                    existing_usernames, existing_emails,
+                    session_usernames, session_emails,
                 )
-                if not username:
-                    skipped += 1
-                    continue
                 tns_id = row["tns_id"] or uuid4().hex[:20]
 
                 params_list.append({
@@ -124,14 +173,19 @@ def load(transformed: List[Dict[str, Any]]) -> tuple[int, int]:
 
             if params_list:
                 run_sql_many(c, upsert, params_list)
+                # Promote newly used ids to the global sets so next batches see them
+                for p in params_list:
+                    existing_usernames.add(p["username"].lower())
+                    existing_emails.add(p["email"].lower())
                 done += len(params_list)
 
             # progress per batch
             elapsed = time.time() - start
-            rps = (done + skipped) / elapsed if elapsed > 0 else 0.0
-            eta = (total - (done + skipped)) / rps if rps > 0 else 0.0
-            pct = ((done + skipped) / total) * 100
-            print(f"[users] {done+skipped:,}/{total:,} ({pct:5.1f}%) "
+            processed = done + skipped
+            rps = processed / elapsed if elapsed > 0 else 0.0
+            eta = (total - processed) / rps if rps > 0 else 0.0
+            pct = (processed / total) * 100
+            print(f"[users] {processed:,}/{total:,} ({pct:5.1f}%) "
                   f"| kept {done:,} | skipped {skipped:,} "
                   f"| {rps:,.0f} rows/s | ETA {_fmt_eta(eta)}",
                   flush=True)

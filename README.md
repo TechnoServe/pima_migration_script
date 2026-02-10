@@ -52,17 +52,17 @@ pima_migrate/
       farmer_groups.py   
       training_modules.py 
       training_sessions.py 
-      attendances.py     # placeholder
-      observations.py    # placeholder
-      observation_results.py # placeholder
-      farm_visits.py     # placeholder
-      farms.py           # placeholder
-      fv_best_practices.py # placeholder
-      fv_best_practice_answers.py # placeholder
-      coffee_varieties.py # placeholder
-      checks.py          # placeholder
-      images.py          # placeholder
-      project_staff_roles.py # placeholder
+      attendances.py   
+      observations.py    
+      observation_results.py 
+      farm_visits.py     
+      farms.py           
+      fv_best_practices.py 
+      fv_best_practice_answers.py 
+      coffee_varieties.py 
+      checks.py          
+      images.py          
+      project_staff_roles.py 
   runner.py
   requirements.txt
   .env.example

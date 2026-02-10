@@ -55,7 +55,6 @@ def fetch_sf_farmers() -> List[Dict[str, Any]]:
         {SF_OTHER_ID}, {SF_NATIONAL_ID}
       FROM {SF_OBJ}
       WHERE IsDeleted = false
-      LIMIT 10
     """
     return list(query_all(sf, soql))
 
