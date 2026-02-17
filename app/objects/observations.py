@@ -33,7 +33,7 @@ SF_LAT = "Observation_Location__Latitude__s"
 SF_LNG = "Observation_Location__Longitude__s"
 SF_ALT = "Altitude__c"
 
-SF_OBSERVATION_TYPE = "RecordTypeId.Name"
+SF_OBSERVATION_TYPE = "RecordType.Name"
 
 # Comments fields (we will combine)
 SF_COMMENTS_1 = "Comments_1__c"
