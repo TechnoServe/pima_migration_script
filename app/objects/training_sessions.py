@@ -41,6 +41,10 @@ SF_MALE_2                      = "Second_Male_Attendance__c"
 SF_FEMALE_2                    = "Second_Female_Attendance__c"
 SF_TOTAL_2                     = "Second_Number_in_Attendance__c"
 
+SF_MALE_ATT_FULL               = "Male_Count_Light_Full__c"
+SF_FEMALE_ATT_FULL             = "Female_Count_Light_Full__c"
+SF_TOTAL_ATT_FULL              = "Total_Count_Light_Full__c"
+
 def fetch_sf_training_sessions() -> List[Dict[str, Any]]:
     sf = sf_client()
     soql = f"""
@@ -51,7 +55,8 @@ def fetch_sf_training_sessions() -> List[Dict[str, Any]]:
         {SF_DATE_1}, {SF_LAT_1}, {SF_LON_1}, {SF_ALT_1},
         {SF_MALE_1}, {SF_FEMALE_1}, {SF_TOTAL_1},
         {SF_DATE_2}, {SF_LAT_2}, {SF_LON_2}, {SF_ALT_2},
-        {SF_MALE_2}, {SF_FEMALE_2}, {SF_TOTAL_2}
+        {SF_MALE_2}, {SF_FEMALE_2}, {SF_TOTAL_2}, 
+        {SF_MALE_ATT_FULL}, {SF_FEMALE_ATT_FULL}, {SF_TOTAL_ATT_FULL}
       FROM {SF_TS_OBJECT}
       WHERE IsDeleted = false
     """
@@ -117,6 +122,10 @@ def transform(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             "female_agg": female_agg,
             "total_agg": total_agg,
 
+            "male_att_full": _to_int(r.get(SF_MALE_ATT_FULL)),
+            "female_att_full": _to_int(r.get(SF_FEMALE_ATT_FULL)),
+            "total_att_full": _to_int(r.get(SF_TOTAL_ATT_FULL)),
+
             "is_deleted": bool(r.get(SF_IS_DELETED)),
             "deleted_at": None,
             "created_at": r.get(SF_CREATED_AT),
@@ -154,7 +163,7 @@ def load(transformed: List[Dict[str, Any]]):
             for row in batch:
                 module_id = module_map.get(row["module_sf_id"])
                 fg_id     = fg_map.get(row["farmer_group_sf_id"])
-                if not (module_id and fg_id and row["commcare_case_id"]):
+                if not (module_id and fg_id):
                     skipped += 1
                     continue
                 trainer_id = user_map.get(row["trainer_sf_id"]) if row["trainer_sf_id"] else None
@@ -164,7 +173,7 @@ def load(transformed: List[Dict[str, Any]]):
                     "module_id": module_id,
                     "farmer_group_id": fg_id,
                     "date_session_1": row["date_session_1"],
-                    "commcare_case_id": row["commcare_case_id"],
+                    "commcare_case_id": row["commcare_case_id"] or row["sf_id"],
 
                     "male_attendees_agg": row["male_agg"],
                     "female_attendees_agg": row["female_agg"],
@@ -175,10 +184,10 @@ def load(transformed: List[Dict[str, Any]]):
                     "updated_at": row["updated_at"],
                     "send_to_commcare_status": row["send_to_commcare_status"],
 
-                    "female_attendees_session_1": row["female1"],
+                    "female_attendees_session_1": row["female_att_full"] or row["female1"],
                     "male_attendees_session_2": row["male2"],
                     "female_attendees_session_2": row["female2"],
-                    "total_attendees_session_1": row["total1"],
+                    "total_attendees_session_1": row["total_att_full"] or row["total1"],
                     "total_attendees_session_2": row["total2"],
 
                     "lat1": row["lat1"], "lon1": row["lon1"], "alt1": row["alt1"],
@@ -186,7 +195,7 @@ def load(transformed: List[Dict[str, Any]]):
 
                     "date_session_2": row["date_session_2"],
                     "sf_id": row["sf_id"],
-                    "male_attendees_session_1": row["male1"],
+                    "male_attendees_session_1": row["male_att_full"] or row["male1"],
                     "is_deleted": row["is_deleted"],
                     "deleted_at": row["deleted_at"],
                     "trainer_id": trainer_id,

@@ -277,7 +277,7 @@ def fetch_sf_rows() -> List[Dict[str, Any]]:
       FROM {SF_OBJECT}
       WHERE IsDeleted = false
       ORDER BY CreatedDate DESC
-      LIMIT 10
+      LIMIT 10000
     """
     return list(query_all(sf, soql))
 

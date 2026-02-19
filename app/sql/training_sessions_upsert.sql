@@ -41,6 +41,7 @@ ON CONFLICT ON CONSTRAINT training_sessions_sf_id_key DO UPDATE SET
   created_at                    = LEAST(t.created_at, EXCLUDED.created_at),
   updated_at                    = EXCLUDED.updated_at,
   send_to_commcare_status       = EXCLUDED.send_to_commcare_status,
+  male_attendees_session_1      = EXCLUDED.male_attendees_session_1,
   female_attendees_session_1    = EXCLUDED.female_attendees_session_1,
   male_attendees_session_2      = EXCLUDED.male_attendees_session_2,
   female_attendees_session_2    = EXCLUDED.female_attendees_session_2,
