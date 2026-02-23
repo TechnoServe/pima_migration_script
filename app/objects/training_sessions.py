@@ -54,6 +54,7 @@ def fetch_sf_training_sessions() -> List[Dict[str, Any]]:
         {SF_MALE_2}, {SF_FEMALE_2}, {SF_TOTAL_2}
       FROM {SF_TS_OBJECT}
       WHERE IsDeleted = false
+      AND Training_Group__r.Project__c = 'a0EOj000005ct73MAA'
     """
     return list(query_all(sf, soql))
 
