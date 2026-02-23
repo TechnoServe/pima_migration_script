@@ -6,8 +6,9 @@ from app.config import settings
 from app.objects import (
     users, programs, locations, projects,
     project_staff_roles, training_modules, farmer_groups,
-    training_sessions, households, farmers, attendances,
-    observations, observation_results
+    training_sessions, training_session_images, households,
+    farmers, attendances, observations, observation_results, farm_visits,
+    fv_best_practices
 )
 
 app = typer.Typer(help="Pima Migration CLI (Salesforce -> Postgres)")
@@ -121,6 +122,17 @@ def cmd_training_sessions():
         finish_run(run_id, status="FAILED", notes=f"Training sessions error: {e}")
         raise
 
+@app.command("training_session_images")
+def cmd_training_session_images():
+    ensure_ops_tables()
+    run_id = start_run(settings.MIGRATION_OPERATOR_EMAIL)
+    try:
+        res = _run_step(run_id, "training_session_images", training_session_images)
+        finish_run(run_id, status="SUCCESS", notes=f"Training session images: {res}")
+    except Exception as e:
+        finish_run(run_id, status="FAILED", notes=f"Training session images error: {e}")
+        raise
+
 @app.command("households")
 def cmd_households():
     ensure_ops_tables()
@@ -165,15 +177,37 @@ def cmd_observations():
         finish_run(run_id, status="FAILED", notes=f"Observations error: {e}")
         raise
 
-@app.command("observation_results")
-def cmd_observation_results():
+# @app.command("observation_results")
+# def cmd_observation_results():
+#     ensure_ops_tables()
+#     run_id = start_run(settings.MIGRATION_OPERATOR_EMAIL)
+#     try:
+#         res = _run_step(run_id, "observation_results", observation_results)
+#         finish_run(run_id, status="SUCCESS", notes=f"Observation results: {res}")
+#     except Exception as e:
+#         finish_run(run_id, status="FAILED", notes=f"Observation results error: {e}")
+#         raise
+
+@app.command("farm_visits")
+def cmd_farm_visits():
     ensure_ops_tables()
     run_id = start_run(settings.MIGRATION_OPERATOR_EMAIL)
     try:
-        res = _run_step(run_id, "observation_results", observation_results)
-        finish_run(run_id, status="SUCCESS", notes=f"Observation results: {res}")
+        res = _run_step(run_id, "farm_visits", farm_visits)
+        finish_run(run_id, status="SUCCESS", notes=f"Farm visits: {res}")
     except Exception as e:
-        finish_run(run_id, status="FAILED", notes=f"Observation results error: {e}")
+        finish_run(run_id, status="FAILED", notes=f"Farm visits error: {e}")
+        raise
+
+@app.command("fv_best_practices")
+def cmd_fv_best_practices():
+    ensure_ops_tables()
+    run_id = start_run(settings.MIGRATION_OPERATOR_EMAIL)
+    try:
+        res = _run_step(run_id, "fv_best_practices", fv_best_practices)
+        finish_run(run_id, status="SUCCESS", notes=f"Farm visit best practices: {res}")
+    except Exception as e:
+        finish_run(run_id, status="FAILED", notes=f"Farm visit best practices error: {e}")
         raise
 
 @app.command("run-all")
@@ -194,19 +228,21 @@ def run_all():
         go("training_modules", training_modules)
         go("farmer_groups", farmer_groups)
         go("training_sessions", training_sessions)
+        go("training_session_images", training_session_images)  # special case for T session images
         go("households", households)
         go("farmers", farmers)
         go("attendances", attendances)
         go("observations", observations)
-        go("observation_results", observation_results)
+        #  go("observation_results", observation_results)
 
         go("farm_visits", farm_visits)
-        go("farms", farms)
+        # go("farms", farms)
         go("fv_best_practices", fv_best_practices)
-        go("fv_best_practice_answers", fv_best_practice_answers)
-        go("coffee_varieties", coffee_varieties)
-        go("checks", checks)
-        go("images", images)
+        # go("fv_best_practice_answers", fv_best_practice_answers)
+        # go("coffee_varieties", coffee_varieties)
+        # go("checks", checks)
+        # go("images", images)
+
 
 
         finish_run(run_id, status="SUCCESS", notes="run-all finished")

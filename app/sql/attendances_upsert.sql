@@ -29,7 +29,7 @@ INSERT INTO pima.attendances AS t (
   :is_deleted,
   :deleted_at
 )
-ON CONFLICT (sf_id) DO UPDATE SET
+ON CONFLICT (submission_id) DO UPDATE SET
   farmer_id          = EXCLUDED.farmer_id,
   training_session_id= EXCLUDED.training_session_id,
   date_attended      = EXCLUDED.date_attended,
