@@ -23,7 +23,7 @@ USING (
     CAST(:is_deleted AS BOOLEAN) AS is_deleted,
     CAST(:deleted_at AS TIMESTAMP) AS deleted_at
 ) AS s
-ON t.submission_id = s.submission_id
+ON t.sf_id = s.sf_id
 WHEN MATCHED THEN
   UPDATE SET
     submission_id          = s.submission_id,
