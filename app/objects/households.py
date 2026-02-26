@@ -123,11 +123,21 @@ def load(transformed: List[Dict[str, Any]]) -> tuple[int, int]:
                     skipped += 1
                     continue
 
+                # household name is empty or household name converted to int is not a number then skip
+                if not row["household_name"] or (not str(row["household_name"]).isdigit()):
+                    skipped += 1
+                    continue
+
+                number = int(row["household_name"]) if row["household_number"] == 0 else row["household_number"]
+
+                if number == 0:
+                    print(f"Warning: household with tns_id {row['tns_id']} has no number or name, using '0' as fallback.")
+                    print(number)
                 params_list.append({
                     "id": str(uuid4()),
                     "farmer_group_id": farmer_group_id,
                     "household_name": row["household_name"],
-                    "household_number": row["household_number"],
+                    "household_number": number,
                     "tns_id": row["tns_id"],
                     "commcare_case_id": row["commcare_case_id"],
                     "number_of_trees": row["number_of_trees"],

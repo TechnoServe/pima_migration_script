@@ -136,7 +136,7 @@ def transform(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             "age": age,
             "phone_number": r.get(SF_PHONE),
 
-            "is_primary_household_member": bool(r.get(SF_PRIMARY_HH_MEMBER)),
+            "is_primary_household_member": True if r.get(SF_PRIMARY_HH_MEMBER) == 'Yes' else False,
             "status": (r.get(SF_STATUS) or "Active"),
             "send_to_commcare": bool(r.get(SF_CREATE_IN_CC)),
             "send_to_commcare_status": (r.get(SF_SENT_TO_OPENFN_STATUS) or "Pending"),
@@ -188,31 +188,6 @@ def load(transformed: List[Dict[str, Any]]) -> tuple[int, int]:
                     row["tns_id"]
                 ])
                 if not required_ok:
-                    print({
-                    "id": str(uuid4()),
-                    "household_id": household_id,
-                    "farmer_group_id": farmer_group_id,
-                    "tns_id": row["tns_id"],
-                    "commcare_case_id": row["commcare_case_id"],
-                    "first_name": row["first_name"],
-                    "middle_name": row["middle_name"],
-                    "last_name": row["last_name"],
-                    "other_id": row["other_id"],
-                    "gender": row["gender"],
-                    "age": row["age"],
-                    "phone_number": row["phone_number"],
-                    "is_primary_household_member": row["is_primary_household_member"],
-                    "status": row["status"],
-                    "send_to_commcare": row["send_to_commcare"],
-                    "send_to_commcare_status": row["send_to_commcare_status"],
-                    "status_notes": row["status_notes"],
-                    "system_user": settings.SYSTEM_USER_ID,
-                    "sf_id": row["sf_id"],
-                    "is_deleted": row["is_deleted"],
-                    "deleted_at": row["deleted_at"],
-                    "created_at": row["created_at"],
-                    "updated_at": row["updated_at"],
-                })
                     skipped += 1
                     continue
 
