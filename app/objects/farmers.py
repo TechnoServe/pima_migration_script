@@ -176,7 +176,7 @@ def load(transformed: List[Dict[str, Any]]) -> tuple[int, int]:
         fg_map  = _id_map(c, "farmer_groups")
         hh_map  = _id_map(c, "households")
 
-        for batch_idx, batch in enumerate(chunked(transformed, 1000), start=1):
+        for batch_idx, batch in enumerate(chunked(transformed, 20000), start=1):
             params_list = []
             for row in batch:
                 farmer_group_id = fg_map.get(row["farmer_group_sf_id"])

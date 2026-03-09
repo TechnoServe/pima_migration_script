@@ -1,0 +1,37 @@
+"project_id","sf_project_id","project_name","project_status","createdAt","updatedAt","project_country","attendance_full"
+"1f4f56e1-92a1-46ea-aa21-c24e110ee613","a0EOj000003Z641MAC","Coffee ET - CREW GAC TFS C2025","active","2025-05-07 23:29:06.030552+02","2026-03-08 14:17:58.676276+02","Ethiopia",False
+"27893961-0e7d-4476-b655-7ea040442e54","a0E1o00000krP5jEAE","Coffee Zimbabwe - Agronomy","active","2023-11-28 14:53:41.816982+02","2026-03-08 14:17:58.620595+02","Zimbabwe",False
+"2a48397b-ca48-4256-8960-e136b79c2615","a0EOj000002RJS1MAO","Coffee - Kenya Nespresso 2024BC","active","2024-08-08 14:09:54.591012+02","2026-03-08 14:17:58.648987+02","Kenya",True
+"32692ff5-2919-43c6-b347-c961da3c1659","a0E9J000000KrqmUAC","Coffee ET - Regrow Yirga Agronomy C2023","active","2023-11-28 14:53:41.841436+02","2025-06-09 15:24:30.240228+02","Ethiopia",False
+"3d0e9191-5202-4bec-8650-d9badf3cc0e6","a0EOj000003E0knMAC","Coffee - ZW IFC 2024C","active","2024-11-20 11:46:31.228727+02","2026-03-08 14:17:58.674934+02","Zimbabwe",True
+"42e98834-e29a-486f-b55e-3d4070b57624","a0E9J000000KjhSUAS","Coffee ET HWG JCP - Beekeeping 2022C","active","2023-11-28 14:53:41.839613+02","2024-12-24 01:11:00.433028+02","Ethiopia",False
+"48e83fcc-ba64-4b83-bc3d-4d4c46815b8a","a0E1o00000ju6KvEAI","Coffee - Uganda Agronomy","active","2024-04-19 02:00:01.725387+02","2025-11-26 23:04:54.543641+02","Uganda",False
+"49646425-9b62-4578-ad7f-3baa60298c37","a0EOj000000wZ5RMAU","Coffee ET- CREW GAC C2024","active","2024-02-26 02:00:02.176079+02","2026-03-08 14:17:58.651152+02","Ethiopia",False
+"628b478b-5cbe-46dd-98cd-11cc8cc73e89","a0E7S0000009dxVUAQ","Coffee ET - Regrow Yirga Agronomy C2022","active","2023-11-28 14:53:41.828504+02","2024-03-05 02:00:00.894056+02",NULL,False
+"674e057b-5c32-4861-8b4d-f98cf2da878e","a0EOj000003TZQTMA4","Coffee ET- CREW GAC C2025","active","2024-12-24 01:09:11.269107+02","2026-03-08 14:17:58.675512+02","Ethiopia",True
+"6dd45e07-cccd-43a2-bd79-b2cdbca09cc7","a0EOj000000VN5BMAW","Coffee - Kenya Nespresso 2024AC","active","2024-01-09 02:00:02.363368+02","2026-03-08 14:17:58.649774+02","Kenya",True
+"756d6394-75f7-4e81-9b6f-59d89a08539c","a0E7S0000009aIAUAY","Coffee ZW (Ag) - C2021","active","2023-11-28 14:53:41.822693+02","2026-03-08 14:17:58.653483+02","Zimbabwe",False
+"78cb323e-1b7f-4163-ae8d-4e4cb2c57dbb","a0E0600000s5iPLEAY","Coffee - DRC Minova C2021","active","2023-11-28 14:53:41.813104+02","2024-12-24 01:11:00.425953+02","DRC",False
+"78ed6c0e-f3d1-4595-80e8-42ba9df267bc","a0E9J000000NTjpUAG","Coffee - Kenya Nespresso 2023C","active","2023-11-28 14:53:41.845145+02","2025-11-26 23:04:54.517797+02","Kenya",False
+"81e7f349-0106-40aa-9564-6afac936e6fb","a0EOj000002C7ivMAC","Coffee - Burundi USDA TNS 2024C","active","2024-07-08 14:39:43.520443+02","2025-06-09 15:24:30.255753+02","Burundi",True
+"84639b04-ca9b-46c6-9dd8-b1f75783c124","a0E9J000000L53sUAC","Coffee ET- HWG JCP C2023","active","2023-11-28 14:53:41.843607+02","2025-06-09 15:24:30.237271+02","Ethiopia",False
+"8777e4ff-950f-450c-9d8c-31e24b27eac2","a0EOj000000yCr7MAE","Coffee ET - Regrow Yirga Agronomy C2024","active","2024-02-28 02:00:01.742238+02","2026-03-08 14:17:58.662604+02","Ethiopia",False
+"87ead3c5-fa74-4fa3-8763-1cf894623071","a0EOj000003Wt1FMAS","Coffee ET - Regrow Yirga Agronomy C2025","active","2025-05-07 23:29:06.030039+02","2026-03-08 14:17:58.692785+02","Ethiopia",False
+"9261907a-8c21-439c-913d-13ff34a51827","a0EOj000004XC3JMAW","Coffee Ethiopia CREW GAC - Sustainability","active","2025-06-09 15:23:40.378982+02","2026-03-08 14:17:58.692017+02","Ethiopia",False
+"97cccc25-f324-48f1-b64c-cc880f97426d","a0EOj000002FMGnMAO","Coffee - Burundi USDA Kahawatu 2024C","active","2024-07-12 08:27:10.661619+02","2025-06-09 15:24:30.259635+02","Burundi",True
+"9c75cad1-1f65-4b1b-a87c-fce3a0d61046","a0EOj000005ZTyjMAG","Coffee ET - Regrow Yirga Agronomy C2026","active","2025-12-18 16:19:55.883684+02","2026-03-08 14:17:58.691382+02","Ethiopia",True
+"a1113f66-2f67-478d-805d-c8759b9e46ad","a0EOj000004XC1hMAG","Coffee Ethiopia Regrow USDA - Sustainability","active","2025-06-09 15:23:40.381612+02","2026-03-08 14:17:58.691201+02","Ethiopia",False
+"a141906d-a210-4e5a-a266-e147a85f015f","a0EOj0000001h1JMAQ","Coffee DRC - GCA Kabare C2023","active","2023-11-28 14:53:41.846377+02","2025-11-26 23:04:54.523603+02","DRC",False
+"af1c1e3e-cf2f-4bdc-8806-e00dbf742e96","a0E1o00000nM1hfEAC","Coffee ZW Nespresso (Ag) - c2","active","2023-11-28 14:53:41.819314+02","2026-03-08 14:17:58.652316+02","Zimbabwe",False
+"af8db99d-0845-4f3c-bfd2-9ffca17f28c5","a0EOj000000W9hhMAC","Coffee - Kenya Nespresso 2024AC - Dummy","active","2024-01-10 02:00:02.451641+02","2024-01-30 02:00:01.732894+02",NULL,True
+"b662b62a-5db3-4b72-850a-0022f9734deb","a0EOj00000064tlMAA","The Avengers Initiative","active","2023-11-28 14:53:41.853557+02","2026-01-05 12:59:47.68391+02","Asgard",True
+"bf6d5a01-524c-44f6-838b-1ae458cd46b6","a0EOj000004XC4vMAG","Coffee Ethiopia Nespresso - Sustainability","active","2025-06-09 15:23:40.375804+02","2026-03-08 14:17:58.690362+02","Ethiopia",False
+"c0d49e83-1e41-4373-b92f-dfe814765fcd","a0EOj000005ct73MAA","Coffee ET- CREW GAC C2026","active","2026-01-07 11:58:27.979419+02","2026-03-08 14:17:58.69251+02","Ethiopia",True
+"cdaeb85b-9b01-42c2-a3b0-a1caee853c50","a0EOj000004shSHMAY","Coffee Kenya Nespresso - Sustainability","active","2025-10-01 14:15:02.511144+02","2026-03-08 14:17:58.695498+02","Kenya",False
+"e1148a8f-782c-4fbf-b3e4-26a35b8829bc","a0E9J000000DeWAUA0","Coffee DRC - GEF Kalehe 2022","active","2023-11-28 14:53:41.836506+02","2024-12-24 01:11:00.432273+02","DRC",False
+"e6e862a0-972d-47e4-ae8a-4f2da7051f47","a0E7S0000009KjZUAU","Coffee ET- HWG JCP C2022","active","2023-11-28 14:53:41.821049+02","2024-08-08 14:09:54.168271+02",NULL,False
+"e9ff504b-7414-4654-8c63-3c6444af9bbb","a0EOj0000004Z8rMAE","Coffee DRC - GCA Kalehe 2023","active","2023-11-28 14:53:41.850673+02","2025-11-26 23:04:54.539337+02","DRC",False
+"f019620e-0a58-414e-8472-85ce509eadd7","a0E9J000000DeVbUAK","Coffee DRC - GCA Kalehe 2022","active","2023-11-28 14:53:41.832842+02","2024-08-08 14:09:54.556278+02",NULL,False
+"f4e7b31c-400e-4c18-b518-f54e133dc008","a0E9J000000DeVlUAK","Coffee DRC - GCA Virunga 2022","active","2023-11-28 14:53:41.834472+02","2024-08-08 14:09:54.557181+02",NULL,False
+"f5b09106-0ae4-449c-a8b2-6041fac69d37","a0E7S000000lCMJUA2","Coffee Puerto Rico 2022","active","2023-11-28 14:53:41.830291+02","2025-11-26 23:04:54.51936+02","Puerto Rico",False
+"f895b522-d3bb-462e-9cb0-216c8b0071f6","a0EOj000004FvmrMAC","Coffee Burundi USDA - Sustainability","active","2025-05-07 23:29:06.031151+02","2025-11-26 23:04:54.591065+02","Burundi",False

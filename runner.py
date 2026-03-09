@@ -8,7 +8,7 @@ from app.objects import (
     project_staff_roles, training_modules, farmer_groups,
     training_sessions, training_session_images, households,
     farmers, attendances, observations, observation_results, farm_visits,
-    fv_best_practices
+    fv_best_practices, csv_users_project_roles
 )
 
 app = typer.Typer(help="Pima Migration CLI (Salesforce -> Postgres)")
@@ -208,6 +208,17 @@ def cmd_fv_best_practices():
         finish_run(run_id, status="SUCCESS", notes=f"Farm visit best practices: {res}")
     except Exception as e:
         finish_run(run_id, status="FAILED", notes=f"Farm visit best practices error: {e}")
+        raise
+    
+@app.command("old_users_accounts")
+def cmd_old_users_accounts():
+    ensure_ops_tables()
+    run_id = start_run(settings.MIGRATION_OPERATOR_EMAIL)
+    try:
+        res = _run_step(run_id, "old_users_accounts", csv_users_project_roles)
+        finish_run(run_id, status="SUCCESS", notes=f"CSV users project roles: {res}")
+    except Exception as e:
+        finish_run(run_id, status="FAILED", notes=f"CSV users project roles error: {e}")
         raise
 
 @app.command("run-all")
