@@ -108,12 +108,9 @@ def transform(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         household_sf_id    = r.get(SF_HOUSEHOLD)
 
         # Names
-        full_name  = r.get(SF_FULL_NAME) or r.get(SF_NAME)
-        last_name  = r.get(SF_LAST_NAME)
+        last  = r.get(SF_LAST_NAME)
         middle     = r.get(SF_MIDDLE_NAME)
-        first, last = _split_name(full_name, last_name)
-        # Ensure last_name not empty
-        last = last or last_name or (full_name.split()[-1] if full_name else None)
+        first = r.get(SF_NAME)
 
         # Required/raw fields
         tns_id  = r.get(SF_TNS_ID) or r.get(SF_PIMA_ID) or uuid4().hex[:20]
