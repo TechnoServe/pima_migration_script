@@ -31,8 +31,6 @@ def fetch_sf_attendances() -> List[Dict[str, Any]]:
         {SF_DATE}, {SF_STATUS}, {SF_ATTENDED}, {SF_SUBMISSION_ID}
       FROM {SF_OBJ}
       WHERE IsDeleted = false
-      AND Training_Session__r.Training_Module__r.Project__c 
-      IN ( 'a0EOj000005ZTyjMAG', 'a0EOj000003TZQTMA4', 'a0EOj000005ct73MAA')
     """
     return list(query_all(sf, soql))
 
