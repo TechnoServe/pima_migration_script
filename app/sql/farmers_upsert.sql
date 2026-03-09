@@ -51,7 +51,7 @@ INSERT INTO pima.farmers AS t (
   :created_at,
   :updated_at
 )
-ON CONFLICT ON CONSTRAINT farmers_sf_id_key DO UPDATE SET
+ON CONFLICT ON CONSTRAINT farmers_commcare_case_id_key DO UPDATE SET
   household_id                 = EXCLUDED.household_id,
   farmer_group_id              = EXCLUDED.farmer_group_id,
   tns_id                       = EXCLUDED.tns_id,
