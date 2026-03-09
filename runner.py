@@ -8,7 +8,7 @@ from app.objects import (
     project_staff_roles, training_modules, farmer_groups,
     training_sessions, training_session_images, households,
     farmers, attendances, observations, observation_results, farm_visits,
-    fv_best_practices, csv_users_project_roles
+    fv_best_practices, csv_users_project_roles, wetmills_from_csv
 )
 
 app = typer.Typer(help="Pima Migration CLI (Salesforce -> Postgres)")
@@ -219,6 +219,17 @@ def cmd_old_users_accounts():
         finish_run(run_id, status="SUCCESS", notes=f"CSV users project roles: {res}")
     except Exception as e:
         finish_run(run_id, status="FAILED", notes=f"CSV users project roles error: {e}")
+        raise
+    
+@app.command("wetmills")
+def cmd_wetmills():
+    ensure_ops_tables()
+    run_id = start_run(settings.MIGRATION_OPERATOR_EMAIL)
+    try:
+        res = _run_step(run_id, "wetmills_from_csv", wetmills_from_csv)
+        finish_run(run_id, status="SUCCESS", notes=f"Wetmills from CSV: {res}")
+    except Exception as e:
+        finish_run(run_id, status="FAILED", notes=f"Wetmills from CSV error: {e}")
         raise
 
 @app.command("run-all")
