@@ -255,7 +255,7 @@ def run_all():
         go("farmers", farmers)
         go("attendances", attendances)
         go("observations", observations)
-        #  go("observation_results", observation_results)
+        go("observation_results", observation_results)
 
         go("farm_visits", farm_visits)
         # go("farms", farms)
