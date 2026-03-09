@@ -1,17 +1,17 @@
 WITH matched AS (
-    SELECT
-        f.id,
-        f.sf_id,
-        f.commcare_case_id
+    SELECT f.id, f.sf_id, f.commcare_case_id
     FROM pima.farmers f
     WHERE (:sf_id IS NOT NULL AND f.sf_id = :sf_id)
        OR (:commcare_case_id IS NOT NULL AND f.commcare_case_id = :commcare_case_id)
 ),
 resolved AS (
-    SELECT
-        COUNT(*) AS match_count,
-        MIN(id) AS target_id
+    SELECT COUNT(*) AS match_count
     FROM matched
+),
+target AS (
+    SELECT id
+    FROM matched
+    LIMIT 1
 ),
 updated AS (
     UPDATE pima.farmers f
@@ -40,10 +40,10 @@ updated AS (
         created_at                  = LEAST(f.created_at, :created_at),
         updated_at                  = :updated_at
     WHERE f.id = (
-        SELECT target_id
-        FROM resolved
-        WHERE match_count = 1
+        SELECT id
+        FROM target
     )
+    AND (SELECT match_count FROM resolved) = 1
     RETURNING f.id, 'updated'::text AS action
 ),
 inserted AS (
@@ -103,13 +103,9 @@ inserted AS (
     WHERE (SELECT match_count FROM resolved) = 0
     RETURNING id, 'inserted'::text AS action
 )
-SELECT *
-FROM updated
+SELECT * FROM updated
 UNION ALL
-SELECT *
-FROM inserted
+SELECT * FROM inserted
 UNION ALL
-SELECT
-    NULL::uuid AS id,
-    'duplicate_conflict'::text AS action
+SELECT NULL::uuid AS id, 'duplicate_conflict'::text AS action
 WHERE (SELECT match_count FROM resolved) > 1;
