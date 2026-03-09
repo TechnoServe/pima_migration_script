@@ -242,19 +242,19 @@ def run_all():
         return _run_step(run_id, name, mod)
 
     try:
-        go("users", users)
-        go("programs", programs)
-        go("locations", locations)
-        go("projects", projects)
-        go("project_staff_roles", project_staff_roles)
-        go("training_modules", training_modules)
-        go("farmer_groups", farmer_groups)
-        go("training_sessions", training_sessions)
-        go("training_session_images", training_session_images)  # special case for T session images
-        go("households", households)
-        go("farmers", farmers)
-        go("attendances", attendances)
-        go("observations", observations)
+        # go("users", users)
+        # go("programs", programs)
+        # go("locations", locations)
+        # go("projects", projects)
+        # go("project_staff_roles", project_staff_roles)
+        # go("training_modules", training_modules)
+        # go("farmer_groups", farmer_groups)
+        # go("training_sessions", training_sessions)
+        # go("training_session_images", training_session_images)  # special case for T session images
+        # go("households", households)
+        # go("farmers", farmers)
+        # go("attendances", attendances)
+        # go("observations", observations)
         go("observation_results", observation_results)
 
         go("farm_visits", farm_visits)

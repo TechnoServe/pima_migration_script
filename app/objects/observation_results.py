@@ -50,6 +50,7 @@ def fetch_sf_observations() -> List[Dict[str, Any]]:
             {SF_SCORE},
             {SF_COMMENTS}
       FROM {SF_OBJECT}
+        WHERE Observation__r.Training_Group__r.Project__r.Project_Status__c = 'Active'
     """
     return list(query_all(sf, soql))
 
