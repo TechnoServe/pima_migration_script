@@ -187,11 +187,7 @@ def load(transformed: List[Dict[str, Any]]) -> tuple[int, int]:
                 ])
                 if not required_ok:
                     print(f"[farmers] Skipping row with missing required fields SF ID:", row['sf_id'])
-                    print("farmer_group_id", farmer_group_id)
-                    print("--------")
-                    print("household_id", household_id)
-                    print("--------")
-                    print("tns_id", row["tns_id"])
+                    print("household missing:", row["household_sf_id"])
                     skipped += 1
                     continue
 
