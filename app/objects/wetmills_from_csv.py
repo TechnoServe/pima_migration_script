@@ -113,7 +113,7 @@ WETMILL_VISIT_INSERT_SQL = text("""
 INSERT INTO pima.wetmill_visits (
     id,
     wetmill_id,
-    user_id,
+    visiting_staff_id,
     form_name,
     visit_date,
     entrance_photograph,
@@ -701,11 +701,11 @@ def load(transformed: Dict[str, Any]) -> Dict[str, int]:
                 params = {
                     "id": actual_id,
                     "wetmill_id": actual_wetmill_id,
-                    "visiting_staff_id": actual_user_id,
+                    "user_id": actual_user_id,
                     "form_name": row["form_name"],
                     "visit_date": row["visit_date"],
                     "entrance_photograph": row["entrance_photograph"],
-                    "geo_location": row["geo_location_hex"],
+                    "geo_location_hex": row["geo_location_hex"],
                     "updated_at": row["updated_at"],
                     "last_updated_by_id": system_user_id,
                 }
@@ -716,11 +716,11 @@ def load(transformed: Dict[str, Any]) -> Dict[str, int]:
                 params = {
                     "id": actual_id,
                     "wetmill_id": actual_wetmill_id,
-                    "visiting_staff_id": actual_user_id,
+                    "user_id": actual_user_id,
                     "form_name": row["form_name"],
                     "visit_date": row["visit_date"],
                     "entrance_photograph": row["entrance_photograph"],
-                    "geo_location": row["geo_location_hex"],
+                    "geo_location_hex": row["geo_location_hex"],
                     "submission_id": row["submission_id"],
                     "created_at": row["created_at"],
                     "updated_at": row["updated_at"],
