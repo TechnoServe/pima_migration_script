@@ -55,7 +55,6 @@ def fetch_sf_farmers() -> List[Dict[str, Any]]:
         {SF_OTHER_ID}, {SF_NATIONAL_ID}
       FROM {SF_OBJ}
       WHERE IsDeleted = false
-      AND Training_Group__r.Project__c = 'a0EOj000005ct73MAA'
     """
     return list(query_all(sf, soql))
 
@@ -186,8 +185,6 @@ def load(transformed: List[Dict[str, Any]]) -> tuple[int, int]:
                     row["tns_id"]
                 ])
                 if not required_ok:
-                    print(f"[farmers] Skipping row with missing required fields SF ID:", row['sf_id'])
-                    print("household missing:", row["household_sf_id"])
                     skipped += 1
                     continue
 

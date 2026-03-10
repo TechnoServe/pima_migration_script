@@ -212,7 +212,6 @@ _SOQL = f"""
     {SF_NUMBER_OF_TREES}
   FROM {SF_HH_OBJECT}
   WHERE IsDeleted = false
-  AND Training_Group__r.Project__c = 'a0EOj000005ct73MAA'
 """
 
 def run(project_filter: Optional[str] = None) -> dict:
