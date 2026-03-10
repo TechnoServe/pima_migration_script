@@ -252,7 +252,7 @@ def run_all():
         # go("training_sessions", training_sessions)
         # go("training_session_images", training_session_images)  # special case for T session images
         # go("households", households)
-        # go("farmers", farmers)
+        go("farmers", farmers)
         # go("attendances", attendances)
         # go("observations", observations)
         # go("observation_results", observation_results)

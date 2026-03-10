@@ -55,6 +55,7 @@ def fetch_sf_farmers() -> List[Dict[str, Any]]:
         {SF_OTHER_ID}, {SF_NATIONAL_ID}
       FROM {SF_OBJ}
       WHERE IsDeleted = false
+      AND Training_Group__r.Project__c = 'a0EOj000005ct73MAA'
     """
     return list(query_all(sf, soql))
 
@@ -173,7 +174,7 @@ def load(transformed: List[Dict[str, Any]]) -> tuple[int, int]:
         fg_map  = _id_map(c, "farmer_groups")
         hh_map  = _id_map(c, "households")
 
-        for batch_idx, batch in enumerate(chunked(transformed, 20000), start=1):
+        for batch_idx, batch in enumerate(chunked(transformed, 5000), start=1):
             params_list = []
             for row in batch:
                 farmer_group_id = fg_map.get(row["farmer_group_sf_id"])
