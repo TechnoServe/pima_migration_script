@@ -118,13 +118,18 @@ def load(transformed: List[Dict[str, Any]]) -> tuple[int, int]:
                 # Required FKs and required NOT NULLs
                 if not farmer_group_id:
                     skipped += 1
+                    print(f"[households] Skipping row with missing farmer group SF ID: {row['farmer_group_sf_id']} (household SF ID: {row['sf_id']})")
                     continue
                 if not row["household_name"] or row["tns_id"] is None:
+                    print(f"[households] Skipping row with missing required fields SF ID: {row['sf_id']}")
+                    print("household name:", row["household_name"])
+                    print("tns_id:", row["tns_id"])
                     skipped += 1
                     continue
 
                 # household name is empty or household name converted to int is not a number then skip
                 if not row["household_name"] or (not str(row["household_name"]).isdigit()):
+                    print(f"[households] Skipping row with invalid household name: {row['household_name']} (SF ID: {row['sf_id']})")
                     skipped += 1
                     continue
 
@@ -207,6 +212,7 @@ _SOQL = f"""
     {SF_NUMBER_OF_TREES}
   FROM {SF_HH_OBJECT}
   WHERE IsDeleted = false
+  AND Training_Group__r.Project__c = 'a0EOj000005ct73MAA'
 """
 
 def run(project_filter: Optional[str] = None) -> dict:
