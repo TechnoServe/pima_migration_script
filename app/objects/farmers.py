@@ -55,6 +55,7 @@ def fetch_sf_farmers() -> List[Dict[str, Any]]:
         {SF_OTHER_ID}, {SF_NATIONAL_ID}
       FROM {SF_OBJ}
       WHERE IsDeleted = false
+      AND Training_Group__r.Project__c = 'a0EOj000003E0knMAC'
     """
     return list(query_all(sf, soql))
 
